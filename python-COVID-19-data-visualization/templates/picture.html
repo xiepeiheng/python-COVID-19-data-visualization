@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>疫情数据可视化</title>
+    <html lang="zh">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/picture.css">
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/script.js"></script>
+    <script src="../static/js/echarts.min.js"></script>
+    <script src="../static/js/shine.js"></script>
+    <script src="../static/js/china.js"></script>
+    <script>
+        function getdata1(){
+            $.ajax({
+                url:'/ajax1',
+                timeout:10000,
+                success:function(data){
+                    $("img").attr("src","data:;base64,"+data+"");
+                },
+                error:function(){
+
+                }
+            })
+        };
+        function getdata2(){
+            $.ajax({
+                url:'/ajax2',
+                timeout:10000,
+                success:function(data){
+                    console.log(data)
+                    $('#h1').text(data[0]);
+                    $('#h2').text(data[1]);
+                    $('#h3').text(data[5]);
+                    $('#h4').text(data[2]);
+                    $('#h5').text(data[3]);
+                    $('#h6').text(data[4])
+                },
+                error:function(){
+
+                }
+            })
+        }
+        {#<img src="data:;base64,{{ zfh }}" class="grp">#}
+        setInterval(getdata1,10000)
+        setInterval(getdata2,10000)
+    </script>
+    </head>
+
+<body>
+<!-- 大标题 -->
+<div class="title">
+    <h1>疫情数据可视化</h1>
+</div>
+<!-- 页面导航栏 -->
+<header class="page-header">
+    <div class="inner">
+        <nav class="primary-nav">
+            <ul>
+                <li><a href="picture">动态图表</a></li>
+                <li><a href="datalist">地区详情</a></li>
+                <li><a href="brochure">抗疫宣传</a></li>
+                <li><a href="forecast">疫情预测</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<!-- 图片展示 -->
+
+<!-- 最外层的不透明框 -->
+<div class="b1">
+    <div class="data">
+        <table>
+            <tr class="d1">
+                <td style="color: #e86d48" id="h1">{{ table[0][0] }}</td>
+                <td style="color: #ff6a57" id="h2">{{ table[0][1] }}</td>
+                <td style="color: #476da0" id="h3">{{ table[0][5] }}</td>
+            </tr>
+            <tr class="d2">
+                <td>新增确诊</td>
+                <td>现有确诊</td>
+                <td>新增境外输入</td>
+            </tr>
+            <tr class="d1">
+                <td style="color: #e83132" id="h4">{{ table[0][2] }}</td>
+                <td style="color: #10aeb5" id="h5">{{ table[0][3] }}</td>
+                <td style="color: #4d5054" id="h6">{{ table[0][4] }}</td>
+            </tr>
+            <tr class="d2">
+                <td>累计确诊</td>
+                <td>累计治愈</td>
+                <td>累计死亡</td>
+            </tr>
+            <tr class="d1">
+                <td style="color: #009966">{{ vaccines[0][0] }}</td>
+                <td style="color: #009966">{{ vaccines[0][1] }}</td>
+                <td style="color: #009966">{{ vaccines[0][2] }}</td>
+            </tr>
+            <tr class="d2">
+                <td>国内累计接种人数</td>
+                <td>国内新增接种人数</td>
+                <td>国内接种率</td>
+            </tr>
+            <tr class="d1">
+                <td style="color: #006600">{{ vaccines[0][3] }}</td>
+                <td style="color: #006600">{{ vaccines[0][4] }}</td>
+                <td style="color: #006600">{{ vaccines[0][5] }}</td>
+            </tr>
+            <tr class="d2">
+                <td>全球累计接种人数</td>
+                <td>全球新增接种人数</td>
+                <td>全球接种率</td>
+            </tr>
+        </table>
+        <!--第一层数据-->
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <!--第一层解释-->
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+
+    </div>
+
+    <!--中国地图-->
+    <div id="main0" style="width: 1050px;height:900px;margin: 50px"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main0'), 'shine');
+        window.dataList = [{
+            name: "南海诸岛",
+            value: 0
+        },
+            {% for i in p1 %}
+
+                {
+                    name: '{{ i[0] }}',
+                    value: '{{ i[1] }}'
+                },
+            {% endfor %}
+
+        ];
+        option = {
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },            
+            tooltip: {
+                formatter: function (e, t, n) {
+                    return .5 == e.value ? e.name + "：有疑似病例" : e.seriesName + "<br />" + e.name + "：" + e.value
+                }
+            },
+            visualMap: {
+                min: 0,
+                max: 1000,
+                left: 26,
+                bottom: 40,
+                showLabel: !0,
+                text: ["高", "低"],
+                pieces: [{
+                    gt: 10000,
+                    label: "> 10000 人",
+                    color: "#7f1100"
+                }, {
+                    gte: 1000,
+                    lte: 9999,
+                    label: "1000 - 9999 人",
+                    color: "#ff5428"
+                }, {
+                    gte: 100,
+                    lte: 999,
+                    label: "100 - 999 人",
+                    color: "#ff8c71"
+                }, {
+                    gte: 1,
+                    lte: 99,
+                    label: "1 - 99 人",
+                    color: "#ffd768"
+                }, {
+                    value: 0,
+                    color: "#ffffff"
+                }],
+                show: !0
+            },
+            geo: {
+                map: "china",
+                roam: !1,
+                scaleLimit: {
+                    min: 1,
+                    max: 2
+                },
+                zoom: 1.23,
+                top: 120,
+                label: {
+                    normal: {
+                        show: !0,
+                        fontSize: "14",
+                        color: "rgba(0,0,0,0.7)"
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        //shadowBlur: 50,
+                        //shadowColor: 'rgba(0, 0, 0, 0.2)',
+                        borderColor: "rgba(0, 0, 0, 0.2)"
+                    },
+                    emphasis: {
+                        areaColor: "#f2d5ad",
+                        shadowOffsetX: 0,
+                        shadowOffsetY: 0,
+                        borderWidth: 0
+                    }
+                }
+            },
+            series: [{
+                name: "确诊病例",
+                type: "map",
+                geoIndex: 0,
+                data: window.dataList
+            }]
+        };
+        myChart.setOption(option);
+    </script>
+
+    <!-- 矩形树图 -->
+    <div id="main1" style="width: 1050px;height:400px;margin: 50px"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main1'), 'shine');
+        option = {
+            title: {
+                text: '全国累计确诊',
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}</br>累计确诊人数:{c}人'
+            },
+            series: [{
+                name: '全国',
+                type: 'treemap',
+                leafDepth: 1,
+                drillDownIcon: '',
+                roam: 'false',
+                label: {
+                    fontSize: 20
+                },
+
+                data: [
+                    {% for i in p1 %}
+                        {
+                            name: '{{ i[0] }}',            // First tree
+                            value: {{ i[1] }},
+                            children: [
+                                {% for j in i[2] %}
+                                    {
+                                        name: '{{ j[0] }}',       // First leaf of first tree
+                                        value: {{ j[1] }}
+                                    },
+                                {% endfor %}
+
+                            ]
+                        },
+                    {% endfor %}
+
+                ]
+            }]
+
+        };
+        myChart.setOption(option);
+    </script>
+
+    <!-- 第一张图 -->
+    <div id="main2" class="grp"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main2'), 'shine');
+
+        option = {
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },            
+            title: {
+                text: '全国新增感染趋势'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['当日新增感染人数']
+            },
+            xAxis: {
+                data: {{ time|tojson }}
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                name: '当日新增感染人数',
+                data: {{ nowconfirm|tojson }},
+                type: 'line',
+                smooth: true
+            }]
+        };
+
+        myChart.setOption(option);
+    </script>
+
+
+    <!-- 第二张图 -->
+    <div id="main3" class="grp"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main3'), 'shine');
+
+        // 指定图表的配置项和数据
+        option = {
+            title: {
+                text: '全国累计数据'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            legend: {
+                data: ['累计确诊', '累计治愈', '累计死亡']
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: {{ time|tojson }}
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                name: '累计确诊',
+                data: {{ confirm|tojson }},
+                type: 'line',
+                smooth: true
+            }, {
+                name: '累计治愈',
+                data: {{ heal|tojson }},
+                type: 'line',
+                smooth: true
+            }, {
+                name: '累计死亡',
+                data: {{ dead|tojson }},
+                type: 'line',
+                smooth: true
+            },
+
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+    <!-- 第三张图 -->
+    <div id="main4" class="grp"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main4'), 'shine');
+
+        // 指定图表的配置项和数据
+        option = {
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },            
+            title: {
+                text: '地区累计感染top7',
+            },
+            xAxis: {
+                type: 'category',
+                data: {{ name|tojson }},
+                axisTick: {
+                    alignWithLabel: true
+                }
+            },
+            yAxis: {
+                type: 'value'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: ['累计感染人数']
+            },
+            series: [{
+                name: '累计感染人数',
+                data: {{ num|tojson }},
+                type: 'bar',
+                barWidth: '60%'
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+    <!--境外每日新增趋势-->
+    <div id="main5" class="grp"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main5'), 'shine');
+
+        option = {
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },            
+            title: {
+                text: '境外输入新增趋势'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['当日新增境外输入人数']
+            },
+            xAxis: {
+                data: {{ time|tojson }}
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                name: '当日新增境外输入人数',
+                data: {{ foreign_nowconfirm|tojson }},
+                type: 'line',
+                smooth: true
+            }]
+        };
+
+        myChart.setOption(option);
+    </script>
+
+    <!--境外每日新增趋势-->
+    <div id="main6" class="grp"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main6'), 'shine');
+
+        option = {
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },            
+            title: {
+                text: '境外输入新增趋势'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['累计境外输入人数']
+            },
+            xAxis: {
+                data: {{ time|tojson }}
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                name: '累计境外输入人数',
+                data: {{ foreign_confirm|tojson }},
+                type: 'line',
+                smooth: true
+            }]
+        };
+
+        myChart.setOption(option);
+    </script>
+
+    <div id="main7" class="grp"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main7'), 'shine');
+
+        option = {
+            title: {
+                text: '现有确诊人数占比'
+            },
+            legend: {
+                top: 'bottom'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            series: [
+                {
+                    name: '现有确诊人数',
+                    type: 'pie',
+                    radius: [30, 300],
+                    center: [250, 330],
+
+                    roseType: 'area',
+                    itemStyle: {
+                        borderRadius: 30
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    data: [
+                        {% for i in pie1 %}
+                            {value: {{ i[1] }}, name: '{{ i[0] }}'},
+                        {% endfor %}
+                    ]
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+
+    <div id="main8" class="grp"></div>
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main8'), 'shine');
+
+        option = {
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },            
+            title: {
+                text: '疫苗接种情况',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                top: 'bottom'
+            },
+            series: [
+                {
+                    name: '接种剂量',
+                    type: 'pie',
+                    radius: [0, 100],
+                    center: ['25%', '50%'],
+                    labelLine: {
+                        show: false
+                    },
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    data: [
+                        {value: {{ vaccines[0][1] }}, name: '国内新增接种'},
+                        {value: {{ vaccines[0][4] }}-{{ vaccines[0][1] }}, name: '国外新增接种'},
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                },
+                {
+                    name: '接种剂量',
+                    type: 'pie',
+                    radius: [0, 100],
+                    center: ['75%', '50%'],
+                    labelLine: {
+                        show: false
+                    },
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    data: [
+                        {value: {{ vaccines[0][0] }}, name: '国内累计接种'},
+                        {value: {{ vaccines[0][3] }}-{{ vaccines[0][0] }}, name: '国外累计接种'},
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+
+    <!-- 热词图片 -->
+    <img src="data:;base64,{{ zfh }}" class="grp">
+
+    <!--零新增保持天数-->
+    <div id="main9" class="biggrp"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main9'), 'shine');
+
+        // 指定图表的配置项和数据
+        option = {
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },            
+            title: {
+                text: '各地区零新增保持天数',
+            },
+            xAxis: {
+                type: 'category',
+                data: {{ pie21|tojson }},
+                axisTick: {
+                    alignWithLabel: true
+                }
+            },
+            yAxis: {
+                type: 'value'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: ['零新增保持天数']
+            },
+            series: [{
+                name: '零新增保持天数',
+                data: {{ pie22|tojson }},
+                type: 'bar',
+                barWidth: '60%'
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+    <!--全球新增排名-->
+    <div id="main10" class="biggrp"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main10'), 'shine');
+
+        // 指定图表的配置项和数据
+        option = {
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },            
+            title: {
+                text: '全球新增top10',
+            },
+            xAxis: {
+                type: 'category',
+                data: {{ earth1|tojson }},
+                axisTick: {
+                    alignWithLabel: true
+                }
+            },
+            yAxis: {
+                type: 'value'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: ['新增确诊人数']
+            },
+            series: [{
+                name: '新增确诊人数',
+                data: {{ earth2|tojson }},
+                type: 'bar',
+                barWidth: '60%'
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+    <!--全球累计排名-->
+    <div id="main11" class="biggrp"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main11'), 'shine');
+
+        // 指定图表的配置项和数据
+        option = {
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: true},
+                    saveAsImage: {show: true}
+                }
+            },            
+            title: {
+                text: '全球累计确诊top10',
+            },
+            xAxis: {
+                type: 'category',
+                data: {{ earth3|tojson }},
+                axisTick: {
+                    alignWithLabel: true
+                }
+            },
+            yAxis: {
+                type: 'value'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: ['累计确诊人数']
+            },
+            series: [{
+                name: '累计确诊人数',
+                data: {{ earth4|tojson }},
+                type: 'bar',
+                barWidth: '60%'
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+    
+
+
+</div>
+<footer>
+    <div class="text">本网站的数据来源于以下站点和接口，深表感谢
+        <div style="height: 20px"></div>
+        <table style="border-spacing: 0;">
+            <tr>
+                <td style="border-left: black 3px solid;text-align: center"><a href="https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=VaccineTopData" target="_blank">腾讯API(1)</a></td>
+                <td style="border-left: black 3px solid;text-align: center"><a href="https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5" target="_blank">腾讯API(2)</a></td>
+                <td style="border-left: black 3px solid;text-align: center"><a href="https://view.inews.qq.com/g2/getOnsInfo?name=disease_other" target="_blank">腾讯API(3)</a></td>
+                <td style="border-left: black 3px solid;text-align: center"><a href="https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=FAutoCountryMerge" target="_blank">腾讯API(4)</a></td>
+                <td style="border-left: black 3px solid;text-align: center"><a href="https://c.m.163.com/ug/api/wuhan/app/data/list-total" target="_blank">网易API</a></td>
+                <td style="border-left: black 3px solid;border-right: black 3px solid"><a href="https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1" target="_blank">百度疫情报告</a></td>
+            </tr>
+        </table>
+    </div>
+</footer>
+</body>
+
+</html>

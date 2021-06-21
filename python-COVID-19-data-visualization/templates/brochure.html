@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title>疫情信息动态展示</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/brochure.css">
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/script.js"></script>
+    </head>
+<body>
+<!-- 大标题 -->
+<div class="title">
+    <h1>疫情数据可视化</h1>
+</div>
+<!-- 页面导航栏 -->
+<header class="page-header">
+    <div class="inner">
+        <nav class="primary-nav">
+            <ul>
+                <li><a href="picture">动态图表</a></li>
+                <li><a href="datalist">地区详情</a></li>
+                <li><a href="brochure">抗疫宣传</a></li>
+                <li><a href="forecast">疫情预测</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<!-- 图片展示 -->
+<div class="b1">
+    <div class="b2">
+        <h2>防疫要点</h2>
+    </div>
+    <!--主图片模块-->
+    <div class="b3">
+        <main class="type1">
+            <figure id="type0">
+                <img src="../static/images/p1.jpg" alt="Photo">
+            </figure>
+            <ul class="type2">
+                <li><a class="type3" href="../static/images/p1.jpg"><img src="../static/images/p11.jpg" alt="Photo1"></a></li>
+                <li><a class="type3" href="../static/images/p2.jpg"><img src="../static/images/p21.jpg" alt="Photo2"></a></li>
+                <li><a class="type3" href="../static/images/p3.jpg"><img src="../static/images/p31.jpg" alt="Photo3"></a></li>
+                <li><a class="type3" href="../static/images/p4.jpg"><img src="../static/images/p41.jpg" alt="Photo4"></a></li>
+                <li><a class="type3" href="../static/images/p5.jpg"><img src="../static/images/p51.jpg" alt="Photo4"></a></li>
+                <li><a class="type3" href="../static/images/p6.jpg"><img src="../static/images/p61.jpg" alt="Photo4"></a></li>
+                <li><a class="type3" href="../static/images/p7.jpg"><img src="../static/images/p71.jpg" alt="Photo4"></a></li>
+                <li><a class="type3" href="../static/images/p8.jpg"><img src="../static/images/p81.jpg" alt="Photo4"></a></li>
+            </ul>
+        </main>
+    </div>
+</div>
+
+<footer>
+    <div class="text">本网站的数据来源于以下站点和接口，深表感谢
+        <div style="height: 20px"></div>
+        <table style="border-spacing: 0;">
+            <tr>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=VaccineTopData" target="_blank">腾讯API(1)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5" target="_blank">腾讯API(2)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://view.inews.qq.com/g2/getOnsInfo?name=disease_other" target="_blank">腾讯API(3)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=FAutoCountryMerge" target="_blank">腾讯API(4)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://c.m.163.com/ug/api/wuhan/app/data/list-total" target="_blank">网易API</a></td>
+                <td style="border-left: black 3px solid;border-right: black 3px solid;width: 175px"><a href="https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1" target="_blank">百度疫情报告</a></td>
+            </tr>
+        </table>
+    </div>
+</footer>
+
+
+</body>
+</html>

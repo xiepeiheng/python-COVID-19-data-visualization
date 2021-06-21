@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>疫情数据可视化</title>
+    <html lang="zh">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/forecast.css">
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/script.js"></script>
+    <script src="../static/js/echarts.min.js"></script>
+    <script>
+        console.log({{ cmy|tojson }})
+    </script>
+    </head>
+<body>
+<!-- 大标题 -->
+<div class="title">
+    <h1>疫情数据可视化</h1>
+</div>
+<!-- 页面导航栏 -->
+<header class="page-header">
+    <div class="inner">
+        <nav class="primary-nav">
+            <ul>
+                <li><a href="picture">动态图表</a></li>
+                <li><a href="datalist">地区详情</a></li>
+                <li><a href="brochure">抗疫宣传</a></li>
+                <li><a href="forecast">疫情预测</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="b1">
+    <div class="公式解释">
+        本页面使用如下Logistic模型拟合部分国家的COVID-19疫情数据。为了保证拟合效果对该公式的起始感染人数进行了一定程度的调整。
+    </div>
+    <div class="数据部分">
+        {% for i in range(8) %}
+            <div id='{{ name[i] }}' , style="height: 500px;width: 1050px"></div>
+            <script type="text/javascript">
+                var myChart = echarts.init(document.getElementById('{{ name[i] }}'), 'shine');
+
+                var colors = ['#5470C6', '#EE6666'];
+
+                option = {
+                    color: colors,
+
+                    tooltip: {
+                        trigger: 'none',
+                        axisPointer: {
+                            type: 'cross'
+                        }
+                    },
+                    title: {
+                        text: '{{ name[i] }}' + '疫情预测',
+                        subtext: '仅供参考'
+                    },
+                    legend: {
+                        data: ['自本记录开始以来的天数','日期' ]
+                    },
+                    grid: {
+                        top: 70,
+                        bottom: 50
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            axisTick: {
+                                alignWithLabel: true
+                            },
+                            axisLine: {
+                                onZero: false,
+                                lineStyle: {
+                                    color: colors[1]
+                                }
+                            },
+                            axisPointer: {
+                                label: {
+                                    formatter: function (params) {
+                                        return '日期  ' + params.value
+                                            + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
+                                    }
+                                }
+                            },
+                            data: {{ cmy[i][0]|tojson }}
+                        },
+                        {
+                            type: 'category',
+                            axisTick: {
+                                alignWithLabel: true
+                            },
+                            axisLine: {
+                                onZero: false,
+                                lineStyle: {
+                                    color: colors[0]
+                                }
+                            },
+                            axisPointer: {
+                                label: {
+                                    formatter: function (params) {
+                                        return '从本记录开始至今 ' + params.value+'天'
+                                            + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
+                                    }
+                                }
+                            },
+                            data: {{ cmy[i][2]|tojson }}
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '自本记录开始以来的天数',
+                            type: 'line',
+                            xAxisIndex: 1,
+                            smooth: true,
+                            emphasis: {
+                                focus: 'series'
+                            },
+                            lineStyle:{width:5},
+                            data: {{ cmy[i][3]|tojson }}
+                        },
+                        {
+                            name: '日期',
+                            type: 'line',
+                            smooth: true,
+                            emphasis: {
+                                focus: 'series'
+                            },
+                            lineStyle:{width:5},
+                            data: {{ cmy[i][1]|tojson }}
+                        }
+                    ]
+                };
+
+                myChart.setOption(option);
+            </script>
+            <div class="表格之间的间隔"></div>
+        {% endfor %}
+
+    <div class="delete" style="background-color: rgba(255, 255, 255, 0.8);height: 1px"></div>
+    </div>
+
+
+</div>
+
+<footer>
+    <div class="text">本网站的数据来源于以下站点和接口，深表感谢
+        <div style="height: 20px"></div>
+        <table style="border-spacing: 0;">
+            <tr>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=VaccineTopData" target="_blank">腾讯API(1)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5" target="_blank">腾讯API(2)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://view.inews.qq.com/g2/getOnsInfo?name=disease_other" target="_blank">腾讯API(3)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=FAutoCountryMerge" target="_blank">腾讯API(4)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://c.m.163.com/ug/api/wuhan/app/data/list-total" target="_blank">网易API</a></td>
+                <td style="border-left: black 3px solid;border-right: black 3px solid;width: 175px"><a href="https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1" target="_blank">百度疫情报告</a></td>
+            </tr>
+        </table>
+    </div>
+</footer>
+
+
+
+</body>
+</html>

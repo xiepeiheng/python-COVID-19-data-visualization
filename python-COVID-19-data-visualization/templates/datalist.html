@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>疫情数据可视化</title>
+    <html lang="zh">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/datalist.css">
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/script.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            {% for i in cmy %}
+                $("#{{ i[0] }}").click(function () {
+                    $(".{{ i[0] }}").toggle();
+                });
+            {% endfor %}
+        });
+    </script>
+    </head>
+
+
+<body>
+<!-- 大标题 -->
+<div class="title">
+    <h1>疫情数据可视化</h1>
+</div>
+<!-- 页面导航栏 -->
+<header class="page-header">
+    <div class="inner">
+        <nav class="primary-nav">
+            <ul>
+                <li><a href="picture">动态图表</a></li>
+                <li><a href="datalist">地区详情</a></li>
+                <li><a href="brochure">抗疫宣传</a></li>
+                <li><a href="forecast">疫情预测</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<!-- 页面主要内容 -->
+<main>
+    <!-- 方块1 -->
+    <div class="b1">
+        <div class="b2">
+            <!--在这里写入主要内容-->
+            <div class="b4">
+                <table class="t1">
+                    <tr>
+                        <td>地区</td>
+                        <td>新增确诊</td>
+                        <td>现有确诊</td>
+                        <td>累计确诊</td>
+                        <td>累计治愈</td>
+                        <td>累计死亡</td>
+                        <td>详细信息</td>
+                    </tr>
+                </table>
+            </div>
+            {% for i in cmy %}
+                {% if i[6] == [] %}
+                    <div class="b3">
+                        <table class="t1">
+                            <tr>
+                                <td>{{ i[0] }}</td>
+                                <td>{{ i[1] }}</td>
+                                <td>{{ i[2] }}</td>
+                                <td>{{ i[3] }}</td>
+                                <td>{{ i[4] }}</td>
+                                <td>{{ i[5] }}</td>
+                                <td>暂缺</td>
+                            </tr>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="b3">
+                        <table class="t1">
+                            <tr>
+                                <td>{{ i[0] }}</td>
+                                <td>{{ i[1] }}</td>
+                                <td>{{ i[2] }}</td>
+                                <td>{{ i[3] }}</td>
+                                <td>{{ i[4] }}</td>
+                                <td>{{ i[5] }}</td>
+                                <td><div class="zfh" type="button" id="{{ i[0] }}">展开/收起</div></td>
+                            </tr>
+                            {% for j in i[6] %}
+                                <tr class="{{ i[0] }}" style="display: none;">
+                                    <td>{{ j[0] }}</td>
+                                    <td>{{ j[1] }}</td>
+                                    <td>{{ j[2] }}</td>
+                                    <td>{{ j[3] }}</td>
+                                    <td>{{ j[4] }}</td>
+                                    <td>{{ j[5] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    <div class="delete" style="background-color: rgba(255, 255, 255, 0.5);height: 1px"></div>
+    </div>
+    <footer>
+    <div class="text">本网站的数据来源于以下站点和接口，深表感谢
+        <div style="height: 20px"></div>
+        <table style="border-spacing: 0;">
+            <tr>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=VaccineTopData" target="_blank">腾讯API(1)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5" target="_blank">腾讯API(2)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://view.inews.qq.com/g2/getOnsInfo?name=disease_other" target="_blank">腾讯API(3)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=FAutoCountryMerge" target="_blank">腾讯API(4)</a></td>
+                <td style="border-left: black 3px solid;text-align: center;width: 175px"><a href="https://c.m.163.com/ug/api/wuhan/app/data/list-total" target="_blank">网易API</a></td>
+                <td style="border-left: black 3px solid;border-right: black 3px solid;width: 175px"><a href="https://voice.baidu.com/act/newpneumonia/newpneumonia/?from=osari_pc_1" target="_blank">百度疫情报告</a></td>
+            </tr>
+        </table>
+    </div>
+</footer>
+
+
+</main>
+
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+/* 图片背景 */
+body{
+    background-image: url(../images/datalist.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
+}
+/* 大标题 */
+.title{
+    padding-top: 140px; 
+    padding-bottom: 100px;
+    padding-left: 100px;
+}
+/* 页面导航栏 */
+ul { padding-left: 0; 
+}
+ul li { list-style-type: none; 
+}
+a { color: inherit; text-decoration: none; 
+}
+.page-header {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    width: 100%;
+    min-width: 960px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.page-header.sticky {
+    position: fixed;
+    top: 0;
+} 
+
+.page-header > .inner {
+    margin: auto;
+    width: 960px;
+}
+
+.no-boxshadow .page-header {
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.primary-nav {
+    float: right;
+    line-height: 80px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.primary-nav li {
+    float: left;
+}
+.primary-nav a {
+    display: block;
+    padding: 0 1.36em;
+}
+.primary-nav a:hover {
+    background-color: rgb(240, 240, 240);
+}
+/* 解决高度塌陷问题 */
+.clear::after{
+    content: "";
+    clear: both;
+    display: block;
+}
+.b1{
+    width: 1150px;
+    height: 100%;
+    margin: 100px auto 0;
+    border-top: 1px rgba(255, 255, 255, 0.7) solid;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+.b2{
+    margin: 50px;
+}
+/*标准四边形方框*/
+.b4{
+    height: 50px;
+    margin-bottom: 20px;
+}
+.b3{
+    border: 5px black solid;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+.t1 td{
+    width: 148px;
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    line-height: 50px;
+}
+tr:nth-child(even){
+    background-color: rgba(255, 255, 255, 0.9);
+}
+table{
+    border-spacing: 0;
+
+}
+.zfh{
+    cursor:default
+}
+/*页面尾部*/
+footer{
+    width: 1150px;
+    height: 150px;
+    margin: 70px auto 0;
+    border-top: 1px rgba(255, 255, 255, 0.7) solid;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+.text{
+    width: 1050px;
+    margin: 30px auto 0;
+    text-align: center;
+}
+
+

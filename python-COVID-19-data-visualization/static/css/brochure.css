@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* 图片背景 */
+body {
+    background-image: url(../images/brochure.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
+}
+
+/* 大标题 */
+.title {
+    padding-top: 140px;
+    padding-bottom: 100px;
+    padding-left: 100px;
+}
+
+/* 页面导航栏 */
+ul {
+    padding-left: 0;
+}
+
+ul li {
+    list-style-type: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.page-header {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    width: 100%;
+    min-width: 960px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.page-header.sticky {
+    position: fixed;
+    top: 0;
+}
+
+.page-header > .inner {
+    margin: auto;
+    width: 960px;
+}
+
+.no-boxshadow .page-header {
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.primary-nav {
+    float: right;
+    line-height: 80px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.primary-nav li {
+    float: left;
+}
+
+.primary-nav a {
+    display: block;
+    padding: 0 1.36em;
+}
+
+.primary-nav a:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+/* 解决高度塌陷问题 */
+.clear::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+/* 图片展示外方格 */
+.b1 {
+    width: 1150px;
+    height: 1070px;
+    margin: 100px auto 50px;
+    border-top: 1px rgb(255, 255, 255, 0.7) solid;
+    background-color: rgb(255, 255, 255, 0.7);
+}
+
+.b2 {
+    margin: 50px;
+    width: 1050px;
+
+}
+
+.b1 .b2 h2 {
+    text-align: center;
+}
+
+.b3 {
+    width: 1150px;
+    margin: 50px auto;
+}
+
+.b4 {
+    width: 1100px;
+    height: 800px;
+    margin: 50px auto;
+
+}
+
+/* 图片轮播 */
+.type0 img {
+    width: 500px;
+    height: 700px
+}
+
+.type2 li img {
+    width: 50px;
+    height: 70px;
+}
+
+.type1 {
+    width: 500px;
+    margin: 0 auto;
+    display: block;
+}
+
+.type0 {
+    margin-bottom: 20px;
+}
+
+.type2 {
+    width: 280px;
+    margin: 0 auto;
+}
+
+.type2 li {
+    margin: 0 10px;
+    float: left;
+    list-style-type: none;
+}
+
+.type2 li .type3:hover {
+    transition: opacity .3s;
+    opacity: .5;
+}
+
+.type2 li:last-child {
+    margin-right: 0;
+}
+
+footer{
+    width: 1150px;
+    height: 150px;
+    margin: 70px auto 0;
+    border-top: 1px rgba(255, 255, 255, 0.7) solid;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+.text{
+    width: 1050px;
+    margin: 30px auto 0;
+    text-align: center;
+}

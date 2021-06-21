@@ -11,8 +11,9 @@
 
 文件夹中是目前运行在ubuntu服务器中的项目文件的副本，想要在云服务器中运行代码，需要如下步骤
 
-1. 对`main1`，`main2`，`main3`三个爬虫文件设置定时运行，以便获取最新数据
-2. 安装`chorme`
-3. 修改`main2`文件中`chormedriver`的路径为合适的路径
+1. 运行`init_database.py`建表
+2. 对`main1`，`main2`，`main3`三个爬虫文件设置定时运行，以便获取最新数据
+3. 安装`chorme`
+4. 修改`main2`文件中`chormedriver`的路径为合适的路径
 
 然后就可以运行

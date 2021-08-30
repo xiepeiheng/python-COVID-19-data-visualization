@@ -1,7 +1,7 @@
 # python-COVID-19-data-visualization
 这是我的毕业设计
 
-这是一个从数据接口获得疫情数据，尔后对数据进行可视化后使用网页展示出来的项目。本项目已经上线运行，网址是[http://www.silyahuukou.cn:5000/picture](http://www.silyahuukou.cn:8000/picture)
+这是一个从数据接口获得疫情数据，尔后对数据进行可视化后使用网页展示出来的项目。本项目已经上线运行，网址是[http://www.silyahuukou.cn:8000/picture](http://www.silyahuukou.cn:8000/picture)
 
 文件中的`main1`，`main2`，`main3`分别是三个爬虫文件，分别负责从api接口获取数据，从网站爬取新闻标题，从api接口爬取用于疫情预测的数据
 
